@@ -20,14 +20,31 @@ http
         var packageProps = linesArray[i].split(/\n(?!\s)/);
         for (var j = 0; j < packageProps.length; j++) {
           if (packageProps[j].length > 0) {
-            var keyvalue = packageProps[j].split(":");
+            var keyvalue = packageProps[j].split(": ");
             // Check that both values are defined
             if (keyvalue[0] && keyvalue[1]) {
-              packageObject[keyvalue[0]] = keyvalue[1];
+              if (keyvalue[0] === "Depends") {
+                packageObject[keyvalue[0]] = keyvalue[1]
+                  .split(",") // Split by comma
+                  .map(item => item.replace(/\s+/g, "").replace(/ *\([^)]*\) */g, "")); // Remove spaces, remove versions listed inside parentheses
+              } else {
+                packageObject[keyvalue[0]] = keyvalue[1];
+              }
             }
           }
         }
         packages.push(packageObject);
+      }
+      for (var i = 0; i < packages.length; i++) {
+        const reverseDependencies = [];
+        for (var j = 0; j < packages.length; j++) {
+          if (packages[i].Depends) {
+            if (packages[i].Depends.includes(packages[j].Package)) {
+              reverseDependencies.push(packages[j].Package);
+            }
+          }
+        }
+        packages[i]["Rdepends"] = reverseDependencies;
       }
       response.writeHead(200, { "Content-Type": "application/json" });
       response.end(JSON.stringify(packages));

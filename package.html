@@ -9,10 +9,12 @@
       var packageName = package.Package ? package.Package : "Package has no name.";
       var packageDescription = package.Description ? package.Description : "Package has no description.";
       var packageDependencies = package.Depends ? package.Depends : "Package depends on no packages.";
+      var reverseDependencies = package.Rdepends ? package.Rdepends : "Package has no reverse dependencies.";
       document.write("<a name=" + package.Package + " />");
       document.write("<p><strong>Package name: </strong>" + packageName + "</p>");
       document.write("<p><strong>Description: </strong>" + packageDescription + "</p>");
       document.write("<p><strong>Depends on: </strong>" + packageDependencies + "</p>");
+      document.write("<p><strong>Reverse dependencies: </strong>" + reverseDependencies + "</p>");
     </script>
   </head>
   <body></body>
