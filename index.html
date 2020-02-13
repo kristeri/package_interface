@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <div id="packages">
+      <title>Package Interface</title>
+      <div>
+        <h3>Package Interface</h3>
+        <script>
+          fetch("http://localhost:3000/data")
+            .then(response => response.json())
+            .then(data => {
+              return data
+                .sort((a, b) => {
+                  if (a.Package < b.Package) {
+                    return -1;
+                  }
+                  if (a.Package > b.Package) {
+                    return 1;
+                  }
+                  return 0;
+                })
+                .map(package => {
+                  var packageName = package.Package;
+                  if (packageName) {
+                    var tree = document.createDocumentFragment();
+                    var link = document.createElement("a");
+                    link.setAttribute("href", `/package.html#${package.Package}`);
+                    link.onclick = function() {
+                      localStorage.setItem("package", JSON.stringify(package));
+                      window.location.href = "index.html";
+                    };
+                    link.appendChild(document.createTextNode(packageName));
+                    var div = document.createElement("div");
+
+                    tree.appendChild(link);
+                    tree.appendChild(div);
+                    document.getElementById("packages").appendChild(tree);
+                  }
+                });
+            })
+            .catch(error => {
+              console.log("Error!");
+              console.error(error);
+            });
+          function sendPackage(package) {
+            localStorage.setItem("package", JSON.stringify(package));
+            window.location.href = "/package.html";
+          }
+        </script>
+      </div>
+    </div>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+  </head>
+  <body></body>
+</html>

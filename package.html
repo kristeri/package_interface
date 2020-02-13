@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Package Interface</title>
+    <script>
+      var package = JSON.parse(localStorage.getItem("package"));
+      var packageName = package.Package ? package.Package : "Package has no name.";
+      var packageDescription = package.Description ? package.Description : "Package has no description.";
+      var packageDependencies = package.Depends ? package.Depends : "Package depends on no packages.";
+      document.write("<a name=" + package.Package + " />");
+      document.write("<p><strong>Package name: </strong>" + packageName + "</p>");
+      document.write("<p><strong>Description: </strong>" + packageDescription + "</p>");
+      document.write("<p><strong>Depends on: </strong>" + packageDependencies + "</p>");
+    </script>
+  </head>
+  <body></body>
+</html>
