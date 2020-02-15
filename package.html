@@ -4,18 +4,89 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Package Interface</title>
-    <script>
-      var package = JSON.parse(localStorage.getItem("package"));
-      var packageName = package.Package ? package.Package : "Package has no name.";
-      var packageDescription = package.Description ? package.Description : "Package has no description.";
-      var packageDependencies = package.Depends ? package.Depends : "Package depends on no packages.";
-      var reverseDependencies = package.Rdepends ? package.Rdepends : "Package has no reverse dependencies.";
-      document.write("<a name=" + package.Package + " />");
-      document.write("<p><strong>Package name: </strong>" + packageName + "</p>");
-      document.write("<p><strong>Description: </strong>" + packageDescription + "</p>");
-      document.write("<p><strong>Depends on: </strong>" + packageDependencies + "</p>");
-      document.write("<p><strong>Reverse dependencies: </strong>" + reverseDependencies + "</p>");
-    </script>
+    <div id="package">
+      <script>
+        var currentPackageName = JSON.parse(localStorage.getItem("package"));
+        var packages = JSON.parse(localStorage.getItem("packages"));
+        var currentPackage = packages.find(pkg => pkg.Package === currentPackageName);
+
+        var packageName = currentPackage.Package ? currentPackage.Package : "Package has no name.";
+        var packageDescription = currentPackage.Description
+          ? currentPackage.Description
+          : "Package has no description.";
+        var packageDependencies = currentPackage.Depends ? currentPackage.Depends : "Package depends on no packages.";
+        var reverseDependencies = currentPackage.Rdepends
+          ? currentPackage.Rdepends
+          : "Package has no reverse dependencies.";
+
+        // Create elements for displaying package name
+        var nameTitleParagraph = document.createElement("b");
+        nameTitleParagraph.appendChild(document.createTextNode("Package name:"));
+        document.getElementById("package").appendChild(nameTitleParagraph);
+        var nameParagraph = document.createElement("p");
+        nameParagraph.appendChild(document.createTextNode(packageName));
+        document.getElementById("package").appendChild(nameParagraph);
+
+        // Create elements for displaying package description
+        var descriptionTitleParagraph = document.createElement("b");
+        descriptionTitleParagraph.appendChild(document.createTextNode("Package description:"));
+        document.getElementById("package").appendChild(descriptionTitleParagraph);
+        var descriptionParagraph = document.createElement("p");
+        descriptionParagraph.appendChild(document.createTextNode(packageDescription));
+        document.getElementById("package").appendChild(descriptionParagraph);
+
+        // Create elements for displaying package dependencies
+        var dependenciesTitleParagraph = document.createElement("b");
+        dependenciesTitleParagraph.appendChild(document.createTextNode("Package dependencies:"));
+        dependenciesTitleParagraph.appendChild(document.createElement("br"))
+        dependenciesTitleParagraph.appendChild(document.createElement("br"))
+        document.getElementById("package").appendChild(dependenciesTitleParagraph);
+
+        // Loop and render dependencies
+        for (var i = 0; i < currentPackage.Depends.length; i++) {
+          var dependencyLink = document.createElement("a");
+          dependencyLink.setAttribute("href", `/package.html#${currentPackage.Depends[i]}`);
+          dependencyLink.onclick = (function(i) {
+            return function() {
+              localStorage.setItem("package", JSON.stringify(currentPackage.Depends[i]));
+              window.location.href = "/package.html";
+            };
+          })(i);
+          dependencyLink.appendChild(document.createTextNode(currentPackage.Depends[i]));
+          var div = document.createElement("div");
+          var tree = document.createDocumentFragment();
+          tree.appendChild(dependencyLink);
+          tree.appendChild(div);
+          document.getElementById("package").appendChild(tree);
+        }
+        document.getElementById("package").appendChild(document.createElement("br"));
+
+        // Create elements for displaying package reverse dependencies
+        var reverseDependenciesTitleParagraph = document.createElement("b");
+        reverseDependenciesTitleParagraph.appendChild(document.createTextNode("Package reverse dependencies:"));
+        reverseDependenciesTitleParagraph.appendChild(document.createElement("br"))
+        reverseDependenciesTitleParagraph.appendChild(document.createElement("br"))
+        document.getElementById("package").appendChild(reverseDependenciesTitleParagraph);
+
+        // Loop and render reverse dependencies
+        for (var i = 0; i < currentPackage.Rdepends.length; i++) {
+          var reverseDependencyLink = document.createElement("a");
+          reverseDependencyLink.setAttribute("href", `/package.html#${currentPackage.Rdepends[i]}`);
+          reverseDependencyLink.onclick = (function(i) {
+            return function() {
+              localStorage.setItem("package", JSON.stringify(currentPackage.Rdepends[i]));
+              window.location.href = "/package.html";
+            };
+          })(i);
+          reverseDependencyLink.appendChild(document.createTextNode(currentPackage.Rdepends[i]));
+          var div = document.createElement("div");
+          var tree = document.createDocumentFragment();
+          tree.appendChild(reverseDependencyLink);
+          tree.appendChild(div);
+          document.getElementById("package").appendChild(tree);
+        }
+      </script>
+    </div>
   </head>
   <body></body>
 </html>
