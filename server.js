@@ -11,6 +11,7 @@ http
     }
 
     if (filePath == "./data") {
+      // Read package mock data from sample file, this can be replaced with absolute path to /var/lib/dpkg/status when in production
       // Split packages that are separated by one empty line
       var linesArray = fs.readFileSync("./status.real", "utf8").split("\n\n");
       var packages = [];
@@ -20,7 +21,7 @@ http
         var packageProps = linesArray[i].split(/\n(?!\s)/);
         for (var j = 0; j < packageProps.length; j++) {
           if (packageProps[j].length > 0) {
-            var keyvalue = packageProps[j].split(": ");
+            var keyvalue = packageProps[j].split(/(?<=^\S+): /); // Split by first colon and space
             // Check that both values are defined
             if (keyvalue[0] && keyvalue[1]) {
               if (keyvalue[0] === "Depends") {
@@ -38,8 +39,8 @@ http
       for (var i = 0; i < packages.length; i++) {
         const reverseDependencies = [];
         for (var j = 0; j < packages.length; j++) {
-          if (packages[i].Depends) {
-            if (packages[i].Depends.includes(packages[j].Package)) {
+          if (packages[j].Depends) {
+            if (packages[j].Depends.includes(packages[i].Package)) {
               reverseDependencies.push(packages[j].Package);
             }
           }
