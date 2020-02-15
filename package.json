@@ -1,0 +1,20 @@
+{
+  "name": "package_interface",
+  "version": "1.0.0",
+  "description": "Simple package interface for Linux Debian / Ubuntu systems.\r The app uses a mock file although the file read path can be replaced with the path to the status file.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kristeri/package_interface.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/kristeri/package_interface/issues"
+  },
+  "homepage": "https://github.com/kristeri/package_interface#readme"
+}
