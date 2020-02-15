@@ -24,6 +24,7 @@ http
             var keyvalue = packageProps[j].split(/(?<=^\S+): /); // Split by first colon and space
             // Check that both values are defined
             if (keyvalue[0] && keyvalue[1]) {
+              // Correctly parse dependencies
               if (keyvalue[0] === "Depends") {
                 packageObject[keyvalue[0]] = keyvalue[1]
                   .split(/[\|,]/) // Split by comma or pipe character
@@ -36,6 +37,7 @@ http
         }
         packages.push(packageObject);
       }
+      // Add reverse dependencies
       for (var i = 0; i < packages.length; i++) {
         const reverseDependencies = [];
         for (var j = 0; j < packages.length; j++) {

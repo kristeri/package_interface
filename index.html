@@ -13,7 +13,7 @@
             .then(data => {
               localStorage.setItem("packages", JSON.stringify(data));
               return data
-                .sort((a, b) => {
+                .sort((a, b) => { // Sort alphabetically
                   if (a.Package < b.Package) {
                     return -1;
                   }
@@ -41,7 +41,7 @@
                 });
             })
             .catch(error => {
-              console.log("Error!");
+              console.log("Error occured while fetching data!");
               console.error(error);
             });
         </script>
