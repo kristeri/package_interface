@@ -1,6 +1,6 @@
 # package_interface
 
-Simple package interface for Linux Debian / Ubuntu systems.
+Simple package interface for Linux Debian / Ubuntu systems made with Node.js (server), JavaScript and basic HTML (frontend).
 The app uses a mock file although the file read path can be replaced with the path to the status file.
 
 This application contains minimalistic styling and focuses mainly on the functionality.
