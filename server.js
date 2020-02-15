@@ -26,7 +26,7 @@ http
             if (keyvalue[0] && keyvalue[1]) {
               if (keyvalue[0] === "Depends") {
                 packageObject[keyvalue[0]] = keyvalue[1]
-                  .split(",") // Split by comma
+                  .split(/[\|,]/) // Split by comma or pipe character
                   .map(item => item.replace(/\s+/g, "").replace(/ *\([^)]*\) */g, "")); // Remove spaces, remove versions listed inside parentheses
               } else {
                 packageObject[keyvalue[0]] = keyvalue[1];
