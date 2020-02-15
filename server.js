@@ -1,7 +1,7 @@
 var http = require("http");
 var fs = require("fs");
 var path = require("path");
-const PATH = 3000;
+const PORT = process.env.PORT || 3000;
 
 http
   .createServer(function(request, response) {
@@ -78,4 +78,4 @@ http
       }
     });
   })
-  .listen(PATH);
+  .listen(PORT);
